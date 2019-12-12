@@ -34,11 +34,9 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', (req, res) => {
-  res.send('hello world!')
-})
-
+app.use('/', require('./routes/home'))
 app.use('/users', require('./routes/user'))
+app.use('/todos', require('./routes/todo'))
 
 app.listen(port, () => {
   console.log(`App is running on ${port}!`)
