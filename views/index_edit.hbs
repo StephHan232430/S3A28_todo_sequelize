@@ -9,7 +9,10 @@
 
     <input type="text" placeholder="name" name="name" value="{{{todo.name}}}" class="form-control">
     <div class="input-group-append">
-      <button type="submit" class="btn btn-success">Edit</button>
+      <a class="btn btn-secondary" href="{{{backURL}}}" role="button">Cancel</a>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">Save</button>
     </div>
   </div>
 

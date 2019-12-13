@@ -42,8 +42,9 @@ router.get('/:id', authenticated, (req, res) => {
     .catch(error => res.status(422).json(error))
 })
 
-// 修改todo頁面
-router.get('/:id/edit', authenticated, (req, res) => {
+// index頁面的todo修改頁面
+router.get('/:id/index_edit', authenticated, (req, res) => {
+  const backURL = req.headers.referer
   User.findByPk(req.user.id)
     .then(user => {
       if (!user) throw new Error('user not found')
@@ -54,11 +55,33 @@ router.get('/:id/edit', authenticated, (req, res) => {
         }
       })
     })
-    .then(todo => res.render('edit', { todo }))
+    .then(todo => res.render('index_edit', { todo, backURL }))
+})
+
+// detail頁面的todo修改頁面
+router.get('/:id/detail_edit', authenticated, (req, res) => {
+  const backURL = req.headers.referer
+  User.findByPk(req.user.id)
+    .then(user => {
+      if (!user) throw new Error('user not found')
+      return Todo.findOne({
+        where: {
+          UserId: req.user.id,
+          Id: req.params.id
+        }
+      })
+    })
+    .then(todo => res.render('detail_edit', { todo, backURL }))
 })
 
 // 修改todo
 router.put('/:id', authenticated, (req, res) => {
+  let redirectURL
+  if (req.headers.referer.includes('detail')) {
+    redirectURL = `/todos/${req.params.id}`
+  } else if (req.headers.referer.includes('index')) {
+    redirectURL = '/'
+  }
   Todo.findOne({
     where: {
       Id: req.params.id,
@@ -66,11 +89,15 @@ router.put('/:id', authenticated, (req, res) => {
     }
   })
     .then(todo => {
-      todo.name = req.body.name,
-        todo.done = req.body.done === 'on'
+      todo.name = req.body.name
+      if (req.body.done === 'on') {
+        todo.done = true
+      } else {
+        todo.done = false
+      }
       return todo.save()
     })
-    .then(todo => res.redirect(`/todos/${req.params.id}`))
+    .then(todo => res.redirect(redirectURL))
     .catch(error => res.status(422).json(error))
 })
 

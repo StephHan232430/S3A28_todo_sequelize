@@ -9,8 +9,9 @@
 
     <input type="text" placeholder="name" name="name" value="{{{todo.name}}}" class="form-control" disabled>
     <div class="input-group-append">
-      <a href="/todos/{{{todo.id}}}/edit" class="btn btn-success">edit</a>
-      <button type="submit" class="btn btn-danger">delete</button>
+      <a class="btn btn-secondary" href="/" role="button">Back</a>
+      <a href="/todos/{{{todo.id}}}/detail_edit" class="btn btn-success">Edit</a>
+      <button type="submit" class="btn btn-danger">Delete</button>
     </div>
   </div>
 
