@@ -40,7 +40,7 @@ npm install
 npm run seeder
 ```
 
-5. 待terminal出現下列訊息，表示種子資料已新增至資料庫
+5. 待terminal出現下列訊息，表示種子資料已新增至資料庫，按下 <kbd>command</kbd> + <kbd>c</kbd> 結束執行
 
 ```
 seeded!
